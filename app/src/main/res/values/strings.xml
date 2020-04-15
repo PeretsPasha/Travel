@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Travel</string>
+    <string name="app_name">Подорожі</string>
+    <string name="explore">Огляд</string>
+    <string name="search">Пошук</string>
+    <string name="favorite">Улюблені</string>
+    <string name="hello">Привіт Паша!</string>
+    <string name="where_are_we">Куди ви збираєтеся</string>
+    <string name="going_today">поїхати сьогодні?</string>
 </resources>
