@@ -1,4 +1,4 @@
-package com.example.travel;
+package com.example.travel.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.travel.R;
+import com.example.travel.models.TravelLocation;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.squareup.picasso.Picasso;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class TravelLocationsAdapter extends RecyclerView.Adapter<TravelLocationsAdapter.TravelLocationViewHolder>{
 
     private List<TravelLocation> travelLocations;
+    private OnClickItemListener listener;
 
     public TravelLocationsAdapter(List<TravelLocation> travelLocations) {
         this.travelLocations = travelLocations;
@@ -25,7 +28,7 @@ public class TravelLocationsAdapter extends RecyclerView.Adapter<TravelLocations
     @Override
     public TravelLocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new TravelLocationViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_location, parent, false)
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_location, parent, false), listener
         );
     }
 
@@ -44,12 +47,20 @@ public class TravelLocationsAdapter extends RecyclerView.Adapter<TravelLocations
         private KenBurnsView kbvLocation;
         private TextView textTitle, textLocation, textStarRating;
 
-         TravelLocationViewHolder(@NonNull View itemView) {
+         TravelLocationViewHolder(@NonNull View itemView, final OnClickItemListener listener) {
             super(itemView);
             kbvLocation = itemView.findViewById(R.id.kbvLocation);
             textTitle = itemView.findViewById(R.id.textTitle);
             textLocation = itemView.findViewById(R.id.textLocation);
             textStarRating = itemView.findViewById(R.id.textStarRating);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    listener.onItemClick(position);
+                }
+            });
          }
 
          void setLocationData(TravelLocation travelLocation){
@@ -58,6 +69,14 @@ public class TravelLocationsAdapter extends RecyclerView.Adapter<TravelLocations
              textLocation.setText(travelLocation.location);
              textStarRating.setText(String.valueOf(travelLocation.starRating));
          }
+    }
+
+    public interface OnClickItemListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnClickListener(OnClickItemListener listener){
+        this.listener = listener;
     }
 
 
