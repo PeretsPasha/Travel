@@ -21,7 +21,6 @@ import com.example.travel.adapters.TravelLocationsAdapter;
 import com.example.travel.data.LocationsData;
 import com.example.travel.models.TravelLocation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
