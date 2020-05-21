@@ -10,9 +10,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.travel.activitys.CountryActivity;
+import com.example.travel.activitys.LoginActivity;
 import com.example.travel.activitys.ProfileActivity;
 import com.example.travel.adapters.TravelLocationsAdapter;
 import com.example.travel.data.LocationsData;
@@ -40,13 +43,7 @@ public class MainActivity extends AppCompatActivity implements TravelLocationsAd
         adapter.setOnClickListener(this);
 
         CardView imageProfile = findViewById(R.id.cardProfilePicture);
-        imageProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(intent);
-            }
-        });
+        registerForContextMenu(imageProfile);
 
         locationsViewPager.setAdapter(adapter);
 
@@ -86,6 +83,29 @@ public class MainActivity extends AppCompatActivity implements TravelLocationsAd
             Intent intent = new Intent(getApplicationContext(), CountryActivity.class);
             intent.putExtra("id", position);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Авторизація");
+        getMenuInflater().inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.option_1:
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.option_2:
+                Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent2);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 }
