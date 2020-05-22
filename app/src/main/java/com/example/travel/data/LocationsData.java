@@ -12,7 +12,7 @@ public class LocationsData {
     public LocationsData() {
 
         TravelLocation travelLocationParis = new TravelLocation();
-        travelLocationParis.imageUrl = "https://wallpaperset.com/w/full/e/0/4/24876.jpg";
+        travelLocationParis.imageUrl = "https://media-cdn.tripadvisor.com/media/photo-c/1024x250/17/15/6d/d6/paris.jpg";
         travelLocationParis.title = "Париж";
         travelLocationParis.location = "Франція";
         travelLocationParis.starRating = 4.8f;
