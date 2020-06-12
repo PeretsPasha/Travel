@@ -1,6 +1,7 @@
 package com.example.travel;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,11 +9,16 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.biometrics.BiometricPrompt;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.travel.activitys.CountryActivity;
 import com.example.travel.activitys.LoginActivity;
@@ -22,12 +28,18 @@ import com.example.travel.data.LocationsData;
 import com.example.travel.models.TravelLocation;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 public class MainActivity extends AppCompatActivity implements TravelLocationsAdapter.OnClickItemListener {
 
     TravelLocationsAdapter adapter;
+    BiometricPrompt prompt;
+    Executor executor;
+    MainActivity activity = this;
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +74,24 @@ public class MainActivity extends AppCompatActivity implements TravelLocationsAd
         });
 
         locationsViewPager.setPageTransformer(compositePageTransformer);
+
+        executor = Executors.newSingleThreadExecutor();
+
+        prompt = new BiometricPrompt.Builder(this)
+                .setTitle("Вхід відбитком пальця")
+                .setSubtitle("Підзаголовок")
+                .setDescription("Опис")
+                .setNegativeButton("Відміна", executor, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "Вхід відмінено", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }).build();
     }
 
     @Override
@@ -92,12 +122,23 @@ public class MainActivity extends AppCompatActivity implements TravelLocationsAd
         getMenuInflater().inflate(R.menu.context_menu, menu);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.option_1:
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(intent);
+                prompt.authenticate(new CancellationSignal(), executor, new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
                 return true;
             case R.id.option_2:
                 Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);

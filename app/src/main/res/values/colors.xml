@@ -5,4 +5,9 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBackgroundLayer">#C6000000</color>
+    <color name="colorSuccess">#4BB543</color>
+    <color name="colorWarning">#FFCC00</color>
+    <color name="colorError">#CC0000</color>
+    <color name="colorNeutral">#434343</color>
+    <color name="colorTextPrimary">#212121</color>
 </resources>

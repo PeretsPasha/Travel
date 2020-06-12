@@ -5,5 +5,5 @@
         android:title="Профіль" />
     <item
         android:id="@+id/option_2"
-        android:title="Вхід" />
+        android:title="Увійти" />
 </menu>
