@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements TravelLocationsAd
 
     public void openDialog() {
         ExampleDialog dialog = new ExampleDialog();
-        dialog.show(getSupportFragmentManager(), "example dialog");
+        dialog.show(getSupportFragmentManager(), "exit dialog");
     }
 
     public void onYesClicked() {
