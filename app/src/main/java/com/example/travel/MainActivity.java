@@ -26,13 +26,14 @@ import com.example.travel.activitys.ProfileActivity;
 import com.example.travel.adapters.TravelLocationsAdapter;
 import com.example.travel.data.LocationsData;
 import com.example.travel.models.TravelLocation;
+import com.example.travel.tools.ExampleDialog;
 
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 
-public class MainActivity extends AppCompatActivity implements TravelLocationsAdapter.OnClickItemListener {
+public class MainActivity extends AppCompatActivity implements TravelLocationsAdapter.OnClickItemListener, ExampleDialog.ExampleDialogListener {
 
     TravelLocationsAdapter adapter;
     BiometricPrompt prompt;
@@ -144,8 +145,24 @@ public class MainActivity extends AppCompatActivity implements TravelLocationsAd
                 Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent2);
                 return true;
+            case R.id.option_3:
+                openDialog();
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    public void openDialog() {
+        ExampleDialog dialog = new ExampleDialog();
+        dialog.show(getSupportFragmentManager(), "example dialog");
+    }
+
+    public void onYesClicked() {
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        openDialog();
     }
 }

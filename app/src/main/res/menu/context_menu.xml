@@ -6,4 +6,7 @@
     <item
         android:id="@+id/option_2"
         android:title="Увійти" />
+    <item
+        android:id="@+id/option_3"
+        android:title="Вихід"/>
 </menu>
